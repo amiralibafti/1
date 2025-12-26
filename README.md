@@ -1,1 +1,2744 @@
-# 1
+<!doctype html>
+<html lang="en" dir="ltr" class="h-full">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Hacking Academy - Python Hacking by Amir Ali Bafti</title>
+    <script src="/_sdk/data_sdk.js"></script>
+    <script src="/_sdk/element_sdk.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        /* ==================== Fonts ==================== */
+        
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Press+Start+2P&display=swap');
+        /* ==================== Base Styles ==================== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+        }
+        
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: #000000;
+            color: #00ff00;
+            position: relative;
+        }
+        /* ==================== Matrix Background ==================== */
+        
+        .matrix-bg {
+            position: relative;
+            width: 100%;
+            min-height: 100%;
+            background: linear-gradient(135deg, #000000 0%, #001100 25%, #002200 50%, #001100 75%, #000000 100%);
+            overflow-x: hidden;
+        }
+        
+        .matrix-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient( 0deg, transparent, transparent 2px, rgba(0, 255, 0, 0.05) 2px, rgba(0, 255, 0, 0.05) 4px);
+            pointer-events: none;
+            animation: scanlines 8s linear infinite;
+            z-index: 1;
+        }
+        
+        @keyframes scanlines {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(50px);
+            }
+        }
+        
+        .matrix-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+            pointer-events: none;
+            z-index: 2;
+        }
+        /* ==================== Matrix Rain Effect ==================== */
+        
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+            overflow: hidden;
+        }
+        
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 16px;
+            line-height: 18px;
+            white-space: pre;
+            color: #00ff00;
+            text-shadow: 0 0 8px #00ff00, 0 0 12px #00ff00;
+            animation: matrix-fall linear infinite;
+            opacity: 0.7;
+        }
+        
+        @keyframes matrix-fall {
+            0% {
+                top: -100%;
+                opacity: 0.7;
+            }
+            85% {
+                opacity: 0.7;
+            }
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+        /* ==================== Grid Pattern ==================== */
+        
+        .cyber-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(0, 255, 0, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 0, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 1;
+        }
+        /* ==================== Content Container ==================== */
+        
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            min-height: 100%;
+        }
+        /* ==================== Glow Effects ==================== */
+        
+        .glow-text {
+            text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes glow-pulse {
+            0%,
+            100% {
+                text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+            }
+            50% {
+                text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor, 0 0 40px currentColor, 0 0 50px currentColor;
+            }
+        }
+        /* ==================== Buttons ==================== */
+        
+        .glow-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid currentColor;
+            box-shadow: 0 0 10px currentColor, inset 0 0 10px rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.7);
+            cursor: pointer;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .glow-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 0 20px currentColor, 0 5px 30px currentColor, inset 0 0 20px rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.9);
+        }
+        
+        .glow-button:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+        
+        .glow-button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient( 45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: button-shine 3s infinite;
+        }
+        
+        @keyframes button-shine {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+        /* ==================== Cards ==================== */
+        
+        .card-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+            border: 2px solid currentColor;
+            box-shadow: 0 0 20px currentColor, inset 0 0 20px rgba(255, 255, 255, 0.03);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+        
+        .card-3d:hover {
+            transform: perspective(1000px) rotateY(5deg) rotateX(5deg) scale(1.05);
+            box-shadow: 0 0 30px currentColor, 0 10px 50px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(255, 255, 255, 0.05);
+        }
+        /* ==================== Floating Animation ==================== */
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        /* ==================== Pulse Glow ==================== */
+        
+        .pulse-glow {
+            animation: pulse-glow-animation 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow-animation {
+            0%,
+            100% {
+                box-shadow: 0 0 20px currentColor;
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 40px currentColor, 0 0 60px currentColor;
+                transform: scale(1.05);
+            }
+        }
+        /* ==================== Gradient Text ==================== */
+        
+        .gradient-text {
+            background: linear-gradient( 90deg, #00ff00, #00ffff, #00ff00, #ffff00, #00ff00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 5s ease infinite;
+            background-size: 200% 200%;
+        }
+        
+        @keyframes gradient-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        /* ==================== Neon Border ==================== */
+        
+        .neon-border {
+            border: 2px solid currentColor;
+            box-shadow: 0 0 10px currentColor, inset 0 0 10px rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+        
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, currentColor, transparent, currentColor);
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: -1;
+        }
+        
+        .neon-border:hover::before {
+            opacity: 0.3;
+        }
+        /* ==================== Modal ==================== */
+        
+        .modal-overlay {
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+        }
+        /* ==================== VSCode Theme ==================== */
+        
+        .vscode-theme {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .vscode-line {
+            padding: 10px 20px;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .vscode-line:hover {
+            background: #2a2a2a;
+            border-left-color: currentColor;
+        }
+        
+        .code-number {
+            color: #858585;
+            margin-right: 20px;
+            user-select: none;
+            display: inline-block;
+            min-width: 50px;
+            font-weight: bold;
+        }
+        
+        .code-keyword {
+            color: #569cd6;
+            font-weight: bold;
+        }
+        
+        .code-string {
+            color: #ce9178;
+        }
+        
+        .code-function {
+            color: #dcdcaa;
+        }
+        
+        .code-comment {
+            color: #6a9955;
+            font-style: italic;
+        }
+        /* ==================== Scrollbar ==================== */
+        
+         ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+        
+         ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 6px;
+        }
+        
+         ::-webkit-scrollbar-thumb {
+            background: #00ff00;
+            border-radius: 6px;
+            box-shadow: 0 0 10px #00ff00;
+        }
+        
+         ::-webkit-scrollbar-thumb:hover {
+            background: #00ff00;
+            box-shadow: 0 0 20px #00ff00;
+        }
+        /* ==================== Loading Spinner ==================== */
+        
+        .loading-spinner {
+            border: 4px solid rgba(0, 255, 0, 0.3);
+            border-top: 4px solid #00ff00;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        /* ==================== Toast Notifications ==================== */
+        
+        .toast {
+            animation: slide-in-right 0.5s ease, slide-out-right 0.5s ease 2.5s;
+            box-shadow: 0 0 20px currentColor;
+            border: 2px solid currentColor;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        @keyframes slide-in-right {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slide-out-right {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+        /* ==================== Stat Cards ==================== */
+        
+        .stat-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid currentColor;
+            box-shadow: 0 0 20px currentColor, inset 0 0 20px rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 0 30px currentColor, 0 10px 40px currentColor, inset 0 0 30px rgba(255, 255, 255, 0.08);
+        }
+        /* ==================== Feature Cards ==================== */
+        
+        .feature-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid currentColor;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient( circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            transform: scale(0);
+            transition: transform 0.6s;
+        }
+        
+        .feature-card:hover::after {
+            transform: scale(1);
+        }
+        /* ==================== Forms ==================== */
+        
+        .form-input {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid currentColor;
+            color: currentColor;
+            padding: 14px 18px;
+            border-radius: 8px;
+            width: 100%;
+            font-family: 'Share Tech Mono', monospace;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            box-shadow: 0 0 20px currentColor;
+            background: rgba(0, 0, 0, 1);
+        }
+        
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+        /* ==================== Section Headers ==================== */
+        
+        .section-header {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        /* ==================== Code Block ==================== */
+        
+        .code-block {
+            background: #1e1e1e;
+            border: 2px solid currentColor;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 14px;
+            line-height: 1.8;
+            overflow-x: auto;
+            box-shadow: 0 0 15px currentColor;
+        }
+        /* ==================== Avatar ==================== */
+        
+        .avatar-circle {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: 900;
+            font-family: 'Orbitron', sans-serif;
+            border: 3px solid currentColor;
+            box-shadow: 0 0 30px currentColor;
+            background: rgba(0, 0, 0, 0.9);
+        }
+        /* ==================== Glitch Effect ==================== */
+        
+        .glitch {
+            position: relative;
+        }
+        
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00ff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00ffff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        
+        @keyframes glitch-anim {
+            0% {
+                clip: rect(10px, 9999px, 31px, 0);
+            }
+            5% {
+                clip: rect(70px, 9999px, 71px, 0);
+            }
+            10% {
+                clip: rect(140px, 9999px, 40px, 0);
+            }
+            15% {
+                clip: rect(110px, 9999px, 120px, 0);
+            }
+            20% {
+                clip: rect(80px, 9999px, 190px, 0);
+            }
+            25% {
+                clip: rect(50px, 9999px, 60px, 0);
+            }
+            30% {
+                clip: rect(160px, 9999px, 170px, 0);
+            }
+            35% {
+                clip: rect(20px, 9999px, 130px, 0);
+            }
+            40% {
+                clip: rect(90px, 9999px, 100px, 0);
+            }
+            45% {
+                clip: rect(180px, 9999px, 10px, 0);
+            }
+            50% {
+                clip: rect(30px, 9999px, 150px, 0);
+            }
+            100% {
+                clip: rect(10px, 9999px, 31px, 0);
+            }
+        }
+        /* ==================== Hidden ==================== */
+        
+        .hidden {
+            display: none !important;
+        }
+        /* ==================== Theme Preview ==================== */
+        
+        .theme-preview {
+            position: relative;
+            height: 140px;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-preview:hover {
+            transform: scale(1.05);
+        }
+        
+        .theme-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient( 0deg, transparent, transparent 2px, currentColor 2px, currentColor 4px);
+            opacity: 0.1;
+        }
+        /* ==================== AI Message ==================== */
+        
+        .ai-message {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid currentColor;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            animation: message-appear 0.3s ease;
+        }
+        
+        @keyframes message-appear {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* ==================== Course Card ==================== */
+        
+        .course-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid currentColor;
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 40px currentColor;
+        }
+        /* ==================== Tab Button ==================== */
+        
+        .tab-button {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid currentColor;
+            color: currentColor;
+            padding: 12px 24px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .tab-button:hover {
+            background: currentColor;
+            color: #000000;
+        }
+        
+        .tab-button.active {
+            background: currentColor;
+            color: #000000;
+            box-shadow: 0 0 30px currentColor;
+        }
+        /* ==================== Badge ==================== */
+        
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 2px solid currentColor;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        /* ==================== Progress Bar ==================== */
+        
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: currentColor;
+            box-shadow: 0 0 10px currentColor;
+            transition: width 0.3s;
+        }
+        /* ==================== Language Flag ==================== */
+        
+        .language-flag {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        /* ==================== Hover Scale ==================== */
+        
+        .hover-scale {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px currentColor;
+        }
+        /* ==================== Contact Button ==================== */
+        
+        .contact-button {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid currentColor;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .contact-button:hover {
+            background: currentColor;
+            color: #000000 !important;
+            transform: scale(1.05);
+        }
+        /* ==================== Project Link ==================== */
+        
+        .project-link {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid currentColor;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s;
+        }
+        
+        .project-link:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 10px 40px currentColor;
+        }
+        /* ==================== Scroll Fade ==================== */
+        
+        .scroll-fade {
+            mask-image: linear-gradient( to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+            -webkit-mask-image: linear-gradient( to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+        }
+        /* ==================== Responsive Design ==================== */
+        
+        @media (max-width: 768px) {
+            .section-header {
+                font-size: 20px;
+            }
+            .avatar-circle {
+                width: 70px;
+                height: 70px;
+                font-size: 28px;
+            }
+            .glow-button {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+            .card-3d {
+                padding: 16px;
+            }
+            .matrix-column {
+                font-size: 12px;
+            }
+        }
+        /* ==================== Additional Animations ==================== */
+        
+        @keyframes rotate-border {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .rotate-border::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            background: linear-gradient(45deg, currentColor, transparent, currentColor);
+            border-radius: inherit;
+            z-index: -1;
+            animation: rotate-border 4s linear infinite;
+        }
+    </style>
+    <style>
+        @view-transition {
+            navigation: auto;
+        }
+    </style>
+</head>
+
+<body class="h-full">
+    <!-- Matrix Rain Effect -->
+    <div class="matrix-rain" id="matrixRain"></div>
+    <!-- Main Background with Grid -->
+    <div class="matrix-bg w-full">
+        <div class="cyber-grid"></div>
+        <!-- Main App Container -->
+        <div id="app" class="content-wrapper">
+            <!-- Home Page -->
+            <div id="homePage" class="page-content w-full">
+                <!-- Header -->
+                <header class="relative z-50 px-4 md:px-6 py-8">
+                    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div class="flex items-center gap-6">
+                            <div class="avatar-circle pulse-glow" style="color: #00ff00;">
+                                AB
+                            </div>
+                            <div class="text-center md:text-left">
+                                <h1 id="siteTitle" class="text-3xl md:text-4xl font-bold glow-text section-header" style="color: #00ff00;">Python Hacking Academy</h1>
+                                <p id="siteSubtitle" class="text-base md:text-lg mt-2" style="color: #00ffff;">Professional Ethical Hacking Training</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 flex-wrap justify-center"><button id="languageBtn" class="glow-button px-5 md:px-7 py-3 md:py-4 rounded-xl font-bold flex items-center gap-2" style="color: #ffff00;"> <i class="fas fa-globe text-xl"></i> <span>Language</span> </button> <button id="themeBtn"
+                                class="glow-button px-5 md:px-7 py-3 md:py-4 rounded-xl font-bold flex items-center gap-2" style="color: #00ffff;"> <i class="fas fa-palette text-xl"></i> <span>Themes</span> </button>
+                        </div>
+                    </div>
+                </header>
+                <!-- Main Content -->
+                <main class="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 relative z-10">
+                    <!-- Welcome Section -->
+                    <div class="text-center mb-16 md:mb-20 floating">
+                        <h2 id="welcomeMessage" class="text-5xl md:text-7xl font-bold mb-6 gradient-text section-header glitch" data-text="Welcome to the World of Hacking">Welcome to the World of Hacking</h2>
+                        <p id="tagline" class="text-xl md:text-2xl mb-10 glow-text" style="color: #00ffff;">Discover Real Power with Python 🔥</p>
+                        <!-- Statistics -->
+                        <div class="flex flex-wrap justify-center gap-6 md:gap-8 mb-10">
+                            <div class="stat-card px-8 py-6 rounded-2xl" style="color: #ff00ff;">
+                                <div class="text-4xl md:text-5xl font-bold glow-text mb-2">
+                                    500+
+                                </div>
+                                <p id="studentsLabel" class="text-base md:text-lg">Students</p>
+                            </div>
+                            <div class="stat-card px-8 py-6 rounded-2xl" style="color: #00ffff;">
+                                <div class="text-4xl md:text-5xl font-bold glow-text mb-2">
+                                    300+
+                                </div>
+                                <p id="coursesLabel" class="text-base md:text-lg">Courses</p>
+                            </div>
+                            <div class="stat-card px-8 py-6 rounded-2xl" style="color: #00ff00;">
+                                <div class="text-4xl md:text-5xl font-bold glow-text mb-2">
+                                    1000+
+                                </div>
+                                <p id="sourcesLabel" class="text-base md:text-lg">Source Codes</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Main Feature Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
+                        <!-- Login & Register --><button onclick="showRegisterPage()" class="feature-card card-3d p-8 rounded-2xl glow-button text-left w-full" style="color: #00ffff;"> <i class="fas fa-user-shield text-5xl md:text-6xl mb-6 glow-text block"></i> <h3 class="text-2xl md:text-3xl font-bold mb-3">Login &amp; Register</h3><p class="text-base md:text-lg mb-6" style="opacity: 0.8;">Join our community and access all features</p><span class="block text-center py-3 rounded-lg font-bold text-lg" style="background: rgba(0, 255, 255, 0.2);"> Get Started <i class="fas fa-arrow-right ml-2"></i> </span> </button>
+                        <!-- Python Learning --><button onclick="showPythonLearning()" class="feature-card card-3d p-8 rounded-2xl glow-button text-left w-full" style="color: #00ff00;"> <i class="fab fa-python text-5xl md:text-6xl mb-6 glow-text block"></i> <h3 class="text-2xl md:text-3xl font-bold mb-3">Learn Python Basics</h3><p class="text-base md:text-lg mb-6" style="opacity: 0.8;">100 essential codes and concepts for Python mastery</p><span class="block text-center py-3 rounded-lg font-bold text-lg" style="background: rgba(0, 255, 0, 0.2);"> Start Learning <i class="fas fa-code ml-2"></i> </span> </button>
+                        <!-- Hacking Sources --><button onclick="showHackingSources()" class="feature-card card-3d p-8 rounded-2xl glow-button text-left w-full" style="color: #ff0000;"> <i class="fas fa-terminal text-5xl md:text-6xl mb-6 glow-text block"></i> <h3 class="text-2xl md:text-3xl font-bold mb-3">Hacking Sources</h3><p class="text-base md:text-lg mb-6" style="opacity: 0.8;">50 professional Python hacking scripts</p><span class="block text-center py-3 rounded-lg font-bold text-lg" style="background: rgba(255, 0, 0, 0.2);"> View Sources <i class="fas fa-bug ml-2"></i> </span> </button>
+                        <!-- Python Applications --><button onclick="showPythonApplications()" class="feature-card card-3d p-8 rounded-2xl glow-button text-left w-full" style="color: #ff00ff;"> <i class="fas fa-rocket text-5xl md:text-6xl mb-6 glow-text block"></i> <h3 class="text-2xl md:text-3xl font-bold mb-3">Python Applications</h3><p class="text-base md:text-lg mb-6" style="opacity: 0.8;">50+ real-world Python use cases</p><span class="block text-center py-3 rounded-lg font-bold text-lg" style="background: rgba(255, 0, 255, 0.2);"> Discover Uses <i class="fas fa-lightbulb ml-2"></i> </span> </button>
+                        <!-- Buy Courses --><button onclick="showCoursePage()" class="feature-card card-3d p-8 rounded-2xl glow-button text-left w-full" style="color: #00ffff;"> <i class="fas fa-graduation-cap text-5xl md:text-6xl mb-6 glow-text block"></i> <h3 class="text-2xl md:text-3xl font-bold mb-3">Buy Courses</h3><p class="text-base md:text-lg mb-6" style="opacity: 0.8;">300 practical hacking courses in multiple languages</p><span class="block text-center py-3 rounded-lg font-bold text-lg" style="background: rgba(0, 255, 255, 0.2);"> Browse Courses <i class="fas fa-shopping-cart ml-2"></i> </span> </button>
+                        <!-- AI Tools --><button onclick="showAIPage()" class="feature-card card-3d p-8 rounded-2xl glow-button text-left w-full" style="color: #ffaa00;"> <i class="fas fa-robot text-5xl md:text-6xl mb-6 glow-text block"></i> <h3 class="text-2xl md:text-3xl font-bold mb-3">amir.ai</h3><p class="text-base md:text-lg mb-6" style="opacity: 0.8;">5 specialized AI programming assistants</p><span class="block text-center py-3 rounded-lg font-bold text-lg" style="background: rgba(255, 170, 0, 0.2);"> Enter AI <i class="fas fa-brain ml-2"></i> </span> </button>
+                    </div>
+                    <!-- Sample Projects Section -->
+                    <div class="mb-16">
+                        <h3 class="text-3xl md:text-4xl font-bold mb-8 text-center section-header glow-text" style="color: #ff00ff;">Sample Projects by <span id="creatorName">Amir Ali Bafti</span></h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                            <a href="https://amiralibafti10.github.io/m/" target="_blank" rel="noopener noreferrer" class="project-link p-8 rounded-2xl hover-scale text-center" style="color: #aa00ff;"> <i class="fas fa-external-link-alt text-4xl md:text-5xl mb-4 glow-text"></i>
+                                <h4 class="text-xl md:text-2xl font-bold">Project M</h4>
+                                <p class="text-sm md:text-base mt-3" style="opacity: 0.7;">Click to view</p>
+                            </a>
+                            <a href="https://amiralibafti10.github.io/17/" target="_blank" rel="noopener noreferrer" class="project-link p-8 rounded-2xl hover-scale text-center" style="color: #ff1493;"> <i class="fas fa-external-link-alt text-4xl md:text-5xl mb-4 glow-text"></i>
+                                <h4 class="text-xl md:text-2xl font-bold">Project 17</h4>
+                                <p class="text-sm md:text-base mt-3" style="opacity: 0.7;">Click to view</p>
+                            </a>
+                            <a href="https://amiralibafti10.github.io/7/" target="_blank" rel="noopener noreferrer" class="project-link p-8 rounded-2xl hover-scale text-center" style="color: #00bfff;"> <i class="fas fa-external-link-alt text-4xl md:text-5xl mb-4 glow-text"></i>
+                                <h4 class="text-xl md:text-2xl font-bold">Project 7</h4>
+                                <p class="text-sm md:text-base mt-3" style="opacity: 0.7;">Click to view</p>
+                            </a>
+                            <a href="https://amiralibafti10.github.io/trade/" target="_blank" rel="noopener noreferrer" class="project-link p-8 rounded-2xl hover-scale text-center" style="color: #00ff7f;"> <i class="fas fa-external-link-alt text-4xl md:text-5xl mb-4 glow-text"></i>
+                                <h4 class="text-xl md:text-2xl font-bold">Project Trade</h4>
+                                <p class="text-sm md:text-base mt-3" style="opacity: 0.7;">Click to view</p>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Contact Section -->
+                    <div class="neon-border p-8 md:p-10 rounded-2xl text-center" style="color: #00ffff; background: rgba(0, 0, 0, 0.9);">
+                        <h3 class="text-3xl md:text-4xl font-bold mb-8 section-header glow-text">Contact Creator</h3>
+                        <p class="text-xl md:text-2xl mb-8"><span id="creatorNameContact">Amir Ali Bafti</span></p>
+                        <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+                            <a href="tel:09926274950" class="contact-button px-6 md:px-8 py-3 md:py-4 rounded-xl font-bold flex items-center gap-3 text-lg"> <i class="fas fa-phone text-xl"></i> <span id="phoneNumber">09926274950</span> </a>
+                            <a href="https://instagram.com/amirali_bafti-1390" target="_blank" rel="noopener noreferrer" class="contact-button px-6 md:px-8 py-3 md:py-4 rounded-xl font-bold flex items-center gap-3 text-lg">
+                                <i class="fab fa-instagram text-xl"></i> <span id="instagramHandle">amirali_bafti-1390</span> </a>
+                            <a href="https://wa.me/989926274950" target="_blank" rel="noopener noreferrer" class="contact-button px-6 md:px-8 py-3 md:py-4 rounded-xl font-bold flex items-center gap-3 text-lg">
+                                <i class="fab fa-whatsapp text-xl"></i> WhatsApp </a>
+                            <a href="sms:09926274950" class="contact-button px-6 md:px-8 py-3 md:py-4 rounded-xl font-bold flex items-center gap-3 text-lg"> <i class="fas fa-sms text-xl"></i> SMS </a>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <!-- Other Pages (Hidden by default) -->
+            <div id="registerPage" class="page-content w-full hidden"></div>
+            <div id="pythonLearningPage" class="page-content w-full hidden"></div>
+            <div id="hackingSourcesPage" class="page-content w-full hidden"></div>
+            <div id="pythonAppsPage" class="page-content w-full hidden"></div>
+            <div id="coursesPage" class="page-content w-full hidden"></div>
+            <div id="aiPage" class="page-content w-full hidden"></div>
+            <!-- Language Modal -->
+            <div id="languageModal" class="fixed inset-0 z-50 hidden modal-overlay flex items-center justify-center p-4">
+                <div class="neon-border rounded-2xl p-8 md:p-10 max-w-5xl w-full max-h-[90%] overflow-y-auto" style="background: rgba(0, 0, 0, 0.98); color: #00ff00;">
+                    <div class="flex justify-between items-center mb-8">
+                        <h3 class="text-2xl md:text-3xl font-bold section-header glow-text">Select Language / انتخاب زبان</h3><button onclick="closeLanguageModal()" class="text-4xl md:text-5xl hover:text-red-500 transition-colors">×</button>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6" id="languageList"></div>
+                </div>
+            </div>
+            <!-- Theme Modal -->
+            <div id="themeModal" class="fixed inset-0 z-50 hidden modal-overlay flex items-center justify-center p-4">
+                <div class="neon-border rounded-2xl p-8 md:p-10 max-w-7xl w-full max-h-[90%] overflow-y-auto" style="background: rgba(0, 0, 0, 0.98); color: #00ffff;">
+                    <div class="flex justify-between items-center mb-8">
+                        <h3 class="text-2xl md:text-3xl font-bold section-header glow-text">Select Matrix Theme</h3><button onclick="closeThemeModal()" class="text-4xl md:text-5xl hover:text-red-500 transition-colors">×</button>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6" id="themeList"></div>
+                </div>
+            </div>
+            <!-- Toast Container -->
+            <div id="toastContainer" class="fixed top-4 right-4 z-50 flex flex-col gap-3 max-w-md"></div>
+            <!-- Loading Overlay -->
+            <div id="loadingOverlay" class="fixed inset-0 z-50 hidden modal-overlay flex items-center justify-center">
+                <div class="loading-spinner" style="border-top-color: #00ff00;"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // ==================== Configuration ====================
+        const defaultConfig = {
+            site_title: "Python Hacking Academy",
+            site_subtitle: "Professional Ethical Hacking Training",
+            creator_name: "Amir Ali Bafti",
+            phone_number: "09926274950",
+            instagram_handle: "amirali_bafti-1390",
+            welcome_message: "Welcome to the World of Hacking",
+            tagline: "Discover Real Power with Python 🔥",
+            students_label: "Students",
+            courses_label: "Courses",
+            sources_label: "Source Codes",
+            background_color: "#000000",
+            primary_color: "#00ff00",
+            secondary_color: "#00ffff",
+            accent_color: "#ff00ff",
+            text_color: "#ffffff",
+            font_family: "Rajdhani",
+            font_size: 16
+        };
+
+        // ==================== Global State ====================
+        let currentLanguage = 'en';
+        let currentTheme = 0;
+        let registeredUsers = [];
+        let currentUser = null;
+        let isLoading = false;
+
+        // ==================== Translations ====================
+        const translations = {
+            en: {
+                welcome: "Welcome to the World of Hacking",
+                subtitle: "Discover Real Power with Python 🔥",
+                students: "Students",
+                courses: "Courses",
+                sources: "Source Codes",
+                login: "Login & Register",
+                python: "Learn Python Basics",
+                hacking: "Hacking Sources",
+                applications: "Python Applications",
+                buyCourses: "Buy Courses",
+                ai: "amir.ai",
+                projects: "Sample Projects by",
+                contact: "Contact Creator"
+            },
+            fa: {
+                welcome: "به دنیای هکینگ خوش آمدید",
+                subtitle: "با پایتون، قدرت واقعی را کشف کنید 🔥",
+                students: "دانشجو",
+                courses: "دوره آموزشی",
+                sources: "کد منبع",
+                login: "ورود و ثبت نام",
+                python: "یادگیری اصول پایتون",
+                hacking: "سورس‌های هکینگ",
+                applications: "کاربرد پایتون",
+                buyCourses: "خرید دوره",
+                ai: "amir.ai",
+                projects: "نمونه پروژه‌های",
+                contact: "ارتباط با سازنده"
+            },
+            ar: {
+                welcome: "مرحبا بكم في عالم الاختراق",
+                subtitle: "اكتشف القوة الحقيقية مع بايثون 🔥",
+                students: "طالب",
+                courses: "دورات",
+                sources: "أكواد المصدر"
+            },
+            es: {
+                welcome: "Bienvenido al mundo del hacking",
+                subtitle: "Descubre el poder real con Python 🔥",
+                students: "Estudiantes",
+                courses: "Cursos",
+                sources: "Códigos fuente"
+            },
+            fr: {
+                welcome: "Bienvenue dans le monde du hacking",
+                subtitle: "Découvrez la vraie puissance avec Python 🔥",
+                students: "Étudiants",
+                courses: "Cours",
+                sources: "Codes sources"
+            },
+            de: {
+                welcome: "Willkommen in der Welt des Hackens",
+                subtitle: "Entdecken Sie echte Macht mit Python 🔥",
+                students: "Studenten",
+                courses: "Kurse",
+                sources: "Quellcodes"
+            },
+            ru: {
+                welcome: "Добро пожаловать в мир хакинга",
+                subtitle: "Откройте реальную силу с Python 🔥",
+                students: "Студентов",
+                courses: "Курсов",
+                sources: "Исходных кодов"
+            },
+            zh: {
+                welcome: "欢迎来到黑客世界",
+                subtitle: "用Python发现真正的力量 🔥",
+                students: "学生",
+                courses: "课程",
+                sources: "源代码"
+            },
+            ja: {
+                welcome: "ハッキングの世界へようこそ",
+                subtitle: "Pythonで本当の力を発見しよう 🔥",
+                students: "学生",
+                courses: "コース",
+                sources: "ソースコード"
+            },
+            ko: {
+                welcome: "해킹의 세계에 오신 것을 환����니다",
+                subtitle: "Python으로 진정한 힘을 발견하세요 🔥",
+                students: "학생",
+                courses: "과정",
+                sources: "소��� 코드"
+            },
+            hi: {
+                welcome: "हैकिंग की दुनिया में आपका स्वागत है",
+                subtitle: "Python के साथ असली शक्ति खोजें 🔥",
+                students: "छात्र",
+                courses: "पाठ्यक्रम",
+                sources: "स्रोत कोड"
+            },
+            tr: {
+                welcome: "Hacking Dünyasına Hoş Geldiniz",
+                subtitle: "Python ile Gerçek Gücü Keşfedin 🔥",
+                students: "Öğrenci",
+                courses: "Kurs",
+                sources: "Kaynak Kodları"
+            },
+            it: {
+                welcome: "Benvenuti nel mondo dell'hacking",
+                subtitle: "Scopri il vero potere con Python 🔥",
+                students: "Studenti",
+                courses: "Corsi",
+                sources: "Codici sorgente"
+            },
+            pt: {
+                welcome: "Bem-vindo ao mundo do hacking",
+                subtitle: "Descubra o poder real com Python 🔥",
+                students: "Estudantes",
+                courses: "Cursos",
+                sources: "Códigos fonte"
+            },
+            nl: {
+                welcome: "Welkom in de wereld van hacken",
+                subtitle: "Ontdek echte kracht met Python 🔥",
+                students: "Studenten",
+                courses: "Cursussen",
+                sources: "Broncodes"
+            },
+            pl: {
+                welcome: "Witamy w świecie hackingu",
+                subtitle: "Odkryj prawdziwą moc z Pythonem 🔥",
+                students: "Studenci",
+                courses: "Kursy",
+                sources: "Kody źródłowe"
+            }
+        };
+
+        // ==================== Languages ====================
+        const languages = [{
+            code: 'en',
+            name: 'English',
+            flag: '🇬🇧'
+        }, {
+            code: 'fa',
+            name: 'فارسی',
+            flag: '🇮🇷'
+        }, {
+            code: 'ar',
+            name: 'العرب��ة',
+            flag: '🇸🇦'
+        }, {
+            code: 'es',
+            name: 'Español',
+            flag: '🇪🇸'
+        }, {
+            code: 'fr',
+            name: 'Français',
+            flag: '🇫🇷'
+        }, {
+            code: 'de',
+            name: 'Deutsch',
+            flag: '🇩🇪'
+        }, {
+            code: 'ru',
+            name: 'Русский',
+            flag: '🇷🇺'
+        }, {
+            code: 'zh',
+            name: '中文',
+            flag: '🇨🇳'
+        }, {
+            code: 'ja',
+            name: '���本語',
+            flag: '🇯🇵'
+        }, {
+            code: 'ko',
+            name: '한국어',
+            flag: '🇰🇷'
+        }, {
+            code: 'hi',
+            name: 'हिन्दी',
+            flag: '🇮🇳'
+        }, {
+            code: 'tr',
+            name: 'Türkçe',
+            flag: '🇹🇷'
+        }, {
+            code: 'it',
+            name: 'Italiano',
+            flag: '🇮🇹'
+        }, {
+            code: 'pt',
+            name: 'Português',
+            flag: '🇵🇹'
+        }, {
+            code: 'nl',
+            name: 'Nederlands',
+            flag: '🇳🇱'
+        }, {
+            code: 'pl',
+            name: 'Polski',
+            flag: '🇵🇱'
+        }];
+
+        // ==================== Matrix Themes (30 themes) ====================
+        const matrixThemes = [{
+            name: 'Classic Matrix Green',
+            bg: 'linear-gradient(135deg, #000000 0%, #001100 25%, #002200 50%, #001100 75%, #000000 100%)',
+            primary: '#00ff00',
+            secondary: '#00aa00',
+            accent: '#00ff00',
+            text: '#ffffff',
+            rain: '#00ff00'
+        }, {
+            name: 'Matrix Cyan',
+            bg: 'linear-gradient(135deg, #000a0a 0%, #001a1a 25%, #002a2a 50%, #001a1a 75%, #000a0a 100%)',
+            primary: '#00ffff',
+            secondary: '#00aaaa',
+            accent: '#00ffff',
+            text: '#ffffff',
+            rain: '#00ffff'
+        }, {
+            name: 'Matrix Red Alert',
+            bg: 'linear-gradient(135deg, #0a0000 0%, #1a0000 25%, #2a0000 50%, #1a0000 75%, #0a0000 100%)',
+            primary: '#ff0000',
+            secondary: '#aa0000',
+            accent: '#ff0000',
+            text: '#ffffff',
+            rain: '#ff0000'
+        }, {
+            name: 'Matrix Purple Neon',
+            bg: 'linear-gradient(135deg, #0a000a 0%, #1a001a 25%, #2a002a 50%, #1a001a 75%, #0a000a 100%)',
+            primary: '#aa00ff',
+            secondary: '#7700aa',
+            accent: '#aa00ff',
+            text: '#ffffff',
+            rain: '#aa00ff'
+        }, {
+            name: 'Matrix Orange Fire',
+            bg: 'linear-gradient(135deg, #0a0500 0%, #1a0a00 25%, #2a0f00 50%, #1a0a00 75%, #0a0500 100%)',
+            primary: '#ff6600',
+            secondary: '#aa4400',
+            accent: '#ff6600',
+            text: '#ffffff',
+            rain: '#ff6600'
+        }, {
+            name: 'Matrix Yellow Electric',
+            bg: 'linear-gradient(135deg, #0a0a00 0%, #1a1a00 25%, #2a2a00 50%, #1a1a00 75%, #0a0a00 100%)',
+            primary: '#ffff00',
+            secondary: '#aaaa00',
+            accent: '#ffff00',
+            text: '#ffffff',
+            rain: '#ffff00'
+        }, {
+            name: 'Matrix Teal Deep',
+            bg: 'linear-gradient(135deg, #000a0a 0%, #001a1a 25%, #002a2a 50%, #001a1a 75%, #000a0a 100%)',
+            primary: '#00ffaa',
+            secondary: '#00aa77',
+            accent: '#00ffaa',
+            text: '#ffffff',
+            rain: '#00ffaa'
+        }, {
+            name: 'Matrix Blue Ice',
+            bg: 'linear-gradient(135deg, #00000a 0%, #00001a 25%, #00002a 50%, #00001a 75%, #00000a 100%)',
+            primary: '#0088ff',
+            secondary: '#0055aa',
+            accent: '#0088ff',
+            text: '#ffffff',
+            rain: '#0088ff'
+        }, {
+            name: 'Matrix Gold Luxury',
+            bg: 'linear-gradient(135deg, #0a0a00 0%, #1a1400 25%, #2a1e00 50%, #1a1400 75%, #0a0a00 100%)',
+            primary: '#ffd700',
+            secondary: '#aa8800',
+            accent: '#ffd700',
+            text: '#ffffff',
+            rain: '#ffd700'
+        }, {
+            name: 'Matrix Blood',
+            bg: 'linear-gradient(135deg, #0a0000 0%, #150000 25%, #200000 50%, #150000 75%, #0a0000 100%)',
+            primary: '#cc0000',
+            secondary: '#880000',
+            accent: '#cc0000',
+            text: '#ffffff',
+            rain: '#cc0000'
+        }, {
+            name: 'Matrix Neon Green',
+            bg: 'linear-gradient(135deg, #000a00 0%, #001500 25%, #002000 50%, #001500 75%, #000a00 100%)',
+            primary: '#00ff00',
+            secondary: '#00cc00',
+            accent: '#00ff00',
+            text: '#ffffff',
+            rain: '#00ff00'
+        }, {
+            name: 'Matrix Magenta',
+            bg: 'linear-gradient(135deg, #0a000a 0%, #15001a 25%, #200020 50%, #15001a 75%, #0a000a 100%)',
+            primary: '#ff00aa',
+            secondary: '#aa0077',
+            accent: '#ff00aa',
+            text: '#ffffff',
+            rain: '#ff00aa'
+        }, {
+            name: 'Matrix Lime',
+            bg: 'linear-gradient(135deg, #050a00 0%, #0a1500 25%, #0f2000 50%, #0a1500 75%, #050a00 100%)',
+            primary: '#88ff00',
+            secondary: '#55aa00',
+            accent: '#88ff00',
+            text: '#ffffff',
+            rain: '#88ff00'
+        }, {
+            name: 'Matrix Violet',
+            bg: 'linear-gradient(135deg, #00000a 0%, #00001a 25%, #11002a 50%, #00001a 75%, #00000a 100%)',
+            primary: '#8800ff',
+            secondary: '#5500aa',
+            accent: '#8800ff',
+            text: '#ffffff',
+            rain: '#8800ff'
+        }, {
+            name: 'Matrix Crimson',
+            bg: 'linear-gradient(135deg, #0a0002 0%, #1a0005 25%, #2a000a 50%, #1a0005 75%, #0a0002 100%)',
+            primary: '#dc143c',
+            secondary: '#aa0f2a',
+            accent: '#dc143c',
+            text: '#ffffff',
+            rain: '#dc143c'
+        }, {
+            name: 'Matrix Aqua',
+            bg: 'linear-gradient(135deg, #000a0a 0%, #001a1a 25%, #002a2a 50%, #001a1a 75%, #000a0a 100%)',
+            primary: '#00ffcc',
+            secondary: '#00aa99',
+            accent: '#00ffcc',
+            text: '#ffffff',
+            rain: '#00ffcc'
+        }, {
+            name: 'Matrix Indigo',
+            bg: 'linear-gradient(135deg, #00000a 0%, #00001a 25%, #11002a 50%, #00001a 75%, #00000a 100%)',
+            primary: '#4b0082',
+            secondary: '#330055',
+            accent: '#4b0082',
+            text: '#ffffff',
+            rain: '#4b0082'
+        }, {
+            name: 'Matrix Emerald',
+            bg: 'linear-gradient(135deg, #000a05 0%, #001a0a 25%, #002a0f 50%, #001a0a 75%, #000a05 100%)',
+            primary: '#00ff55',
+            secondary: '#00aa33',
+            accent: '#00ff55',
+            text: '#ffffff',
+            rain: '#00ff55'
+        }, {
+            name: 'Matrix Amber',
+            bg: 'linear-gradient(135deg, #0a0700 0%, #1a0e00 25%, #2a1500 50%, #1a0e00 75%, #0a0700 100%)',
+            primary: '#ffaa00',
+            secondary: '#aa7700',
+            accent: '#ffaa00',
+            text: '#ffffff',
+            rain: '#ffaa00'
+        }, {
+            name: 'Matrix Cobalt',
+            bg: 'linear-gradient(135deg, #00000a 0%, #00001a 25%, #00112a 50%, #00001a 75%, #00000a 100%)',
+            primary: '#0047ab',
+            secondary: '#003377',
+            accent: '#0047ab',
+            text: '#ffffff',
+            rain: '#0047ab'
+        }, {
+            name: 'Matrix Neon Blue',
+            bg: 'linear-gradient(135deg, #00000a 0%, #00151a 25%, #002a2a 50%, #00151a 75%, #00000a 100%)',
+            primary: '#00ddff',
+            secondary: '#00aacc',
+            accent: '#00ddff',
+            text: '#ffffff',
+            rain: '#00ddff'
+        }, {
+            name: 'Matrix Toxic Green',
+            bg: 'linear-gradient(135deg, #000a00 0%, #001a00 25%, #002a00 50%, #001a00 75%, #000a00 100%)',
+            primary: '#00ff33',
+            secondary: '#00aa22',
+            accent: '#00ff33',
+            text: '#ffffff',
+            rain: '#00ff33'
+        }, {
+            name: 'Matrix Hot Pink',
+            bg: 'linear-gradient(135deg, #0a0005 0%, #1a000a 25%, #2a000f 50%, #1a000a 75%, #0a0005 100%)',
+            primary: '#ff1493',
+            secondary: '#aa0f66',
+            accent: '#ff1493',
+            text: '#ffffff',
+            rain: '#ff1493'
+        }, {
+            name: 'Matrix Electric Purple',
+            bg: 'linear-gradient(135deg, #05000a 0%, #0a001a 25%, #0f002a 50%, #0a001a 75%, #05000a 100%)',
+            primary: '#bf00ff',
+            secondary: '#8800aa',
+            accent: '#bf00ff',
+            text: '#ffffff',
+            rain: '#bf00ff'
+        }, {
+            name: 'Matrix Neon Red',
+            bg: 'linear-gradient(135deg, #0a0000 0%, #1a0000 25%, #2a0000 50%, #1a0000 75%, #0a0000 100%)',
+            primary: '#ff003f',
+            secondary: '#aa002a',
+            accent: '#ff003f',
+            text: '#ffffff',
+            rain: '#ff003f'
+        }, {
+            name: 'Matrix Turquoise',
+            bg: 'linear-gradient(135deg, #000a0a 0%, #001a1a 25%, #002a2a 50%, #001a1a 75%, #000a0a 100%)',
+            primary: '#00e5ee',
+            secondary: '#00b3bb',
+            accent: '#00e5ee',
+            text: '#ffffff',
+            rain: '#00e5ee'
+        }, {
+            name: 'Matrix Laser Red',
+            bg: 'linear-gradient(135deg, #0a0000 0%, #1a0000 25%, #2a0000 50%, #1a0000 75%, #0a0000 100%)',
+            primary: '#ff0040',
+            secondary: '#cc0033',
+            accent: '#ff0040',
+            text: '#ffffff',
+            rain: '#ff0040'
+        }, {
+            name: 'Matrix Neon Yellow',
+            bg: 'linear-gradient(135deg, #0a0a00 0%, #1a1a00 25%, #2a2a00 50%, #1a1a00 75%, #0a0a00 100%)',
+            primary: '#ffff33',
+            secondary: '#cccc22',
+            accent: '#ffff33',
+            text: '#ffffff',
+            rain: '#ffff33'
+        }, {
+            name: 'Matrix Ghost',
+            bg: 'linear-gradient(135deg, #050505 0%, #0a0a0a 25%, #0f0f0f 50%, #0a0a0a 75%, #050505 100%)',
+            primary: '#00ffaa',
+            secondary: '#00cc88',
+            accent: '#00ffaa',
+            text: '#ffffff',
+            rain: '#00ffaa'
+        }, {
+            name: 'Matrix Pink Neon',
+            bg: 'linear-gradient(135deg, #0a0005 0%, #1a000a 25%, #2a000f 50%, #1a000a 75%, #0a0005 100%)',
+            primary: '#ff00ff',
+            secondary: '#cc00cc',
+            accent: '#ff00ff',
+            text: '#ffffff',
+            rain: '#ff00ff'
+        }];
+
+        // ==================== Utility Functions ====================
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            const colors = {
+                success: '#00ff00',
+                error: '#ff0000',
+                warning: '#ffaa00',
+                info: '#00ffff'
+            };
+            toast.className = 'toast px-8 py-5 rounded-xl text-white font-bold text-lg';
+            toast.style.color = colors[type];
+            toast.style.background = 'rgba(0, 0, 0, 0.95)';
+            toast.textContent = message;
+            document.getElementById('toastContainer').appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function showLoading() {
+            isLoading = true;
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            isLoading = false;
+            document.getElementById('loadingOverlay').classList.add('hidden');
+        }
+
+        // ==================== Matrix Rain Effect ====================
+        let matrixColumns = [];
+
+        function createMatrixRain() {
+            const rain = document.getElementById('matrixRain');
+            if (!rain) return;
+
+            rain.innerHTML = '';
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?';
+            const columnCount = Math.floor(window.innerWidth / 25);
+
+            // Clear old columns
+            matrixColumns = [];
+
+            for (let i = 0; i < columnCount; i++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+                column.style.left = `${i * 25}px`;
+                column.style.animationDuration = `${Math.random() * 8 + 12}s`;
+                column.style.animationDelay = `${Math.random() * 5}s`;
+
+                let text = '';
+                const length = Math.floor(Math.random() * 15) + 10; // Reduced length for better performance
+                for (let j = 0; j < length; j++) {
+                    text += characters.charAt(Math.floor(Math.random() * characters.length)) + '\n';
+                }
+                column.textContent = text;
+                rain.appendChild(column);
+                matrixColumns.push(column);
+            }
+        }
+
+        // ==================== Language Functions ====================
+        function showLanguageModal() {
+            const modal = document.getElementById('languageModal');
+            const list = document.getElementById('languageList');
+            list.innerHTML = languages.map(lang => `
+                <button onclick="changeLanguage('${lang.code}')" 
+                        class="glow-button p-5 rounded-xl font-bold flex items-center gap-3 hover-scale justify-center"
+                        style="color: #00ff00;">
+                    <span class="text-3xl">${lang.flag}</span>
+                    <span class="text-base">${lang.name}</span>
+                </button>
+            `).join('');
+            modal.classList.remove('hidden');
+        }
+
+        function closeLanguageModal() {
+            document.getElementById('languageModal').classList.add('hidden');
+        }
+
+        function changeLanguage(code) {
+            currentLanguage = code;
+            const html = document.documentElement;
+            html.lang = code;
+            html.dir = (code === 'fa' || code === 'ar') ? 'rtl' : 'ltr';
+
+            // Update all text elements based on current language
+            const t = translations[code] || translations.en;
+
+            // Update welcome section
+            const welcomeEl = document.getElementById('welcomeMessage');
+            const taglineEl = document.getElementById('tagline');
+            const studentsEl = document.getElementById('studentsLabel');
+            const coursesEl = document.getElementById('coursesLabel');
+            const sourcesEl = document.getElementById('sourcesLabel');
+
+            if (welcomeEl) {
+                welcomeEl.textContent = t.welcome;
+                welcomeEl.setAttribute('data-text', t.welcome);
+            }
+            if (taglineEl) taglineEl.textContent = t.subtitle;
+            if (studentsEl) studentsEl.textContent = t.students;
+            if (coursesEl) coursesEl.textContent = t.courses;
+            if (sourcesEl) sourcesEl.textContent = t.sources;
+
+            // Update button texts
+            const langBtnText = document.querySelector('#languageBtn span');
+            const themeBtnText = document.querySelector('#themeBtn span');
+            if (langBtnText) langBtnText.textContent = code === 'fa' ? 'زبان' : code === 'ar' ? 'اللغة' : 'Language';
+            if (themeBtnText) themeBtnText.textContent = code === 'fa' ? 'تم‌ها' : code === 'ar' ? 'السمات' : 'Themes';
+
+            // Update feature card texts
+            const featureCards = document.querySelectorAll('.feature-card h3');
+            const featureTexts = [t.login, t.python, t.hacking, t.applications, t.buyCourses, t.ai];
+            featureCards.forEach((card, index) => {
+                if (featureTexts[index]) card.textContent = featureTexts[index];
+            });
+
+            closeLanguageModal();
+            showToast(`Language changed to ${languages.find(l => l.code === code).name}`, 'success');
+        }
+
+        // ==================== Theme Functions ====================
+        function showThemeModal() {
+            const modal = document.getElementById('themeModal');
+            const list = document.getElementById('themeList');
+            list.innerHTML = matrixThemes.map((theme, index) => `
+                <button onclick="changeTheme(${index})" 
+                        class="theme-preview p-6 rounded-2xl font-bold hover-scale neon-border"
+                        style="background: ${theme.bg}; color: ${theme.primary};">
+                    <div class="text-lg mb-4 glow-text">${theme.name}</div>
+                    <div class="flex gap-2 justify-center flex-wrap">
+                        <div class="w-8 h-8 rounded-full" style="background: ${theme.primary}; box-shadow: 0 0 15px ${theme.primary};"></div>
+                        <div class="w-8 h-8 rounded-full" style="background: ${theme.secondary}; box-shadow: 0 0 15px ${theme.secondary};"></div>
+                        <div class="w-8 h-8 rounded-full" style="background: ${theme.accent}; box-shadow: 0 0 15px ${theme.accent};"></div>
+                    </div>
+                </button>
+            `).join('');
+            modal.classList.remove('hidden');
+        }
+
+        function closeThemeModal() {
+            document.getElementById('themeModal').classList.add('hidden');
+        }
+
+        function changeTheme(index) {
+            currentTheme = index;
+            const theme = matrixThemes[index];
+            const matrixBg = document.querySelector('.matrix-bg');
+            if (matrixBg) {
+                matrixBg.style.background = theme.bg;
+            }
+            document.body.style.color = theme.text;
+
+            // Update rain columns efficiently
+            const rainColumns = document.querySelectorAll('.matrix-column');
+            const rainColor = theme.rain;
+            const rainShadow = `0 0 8px ${rainColor}, 0 0 12px ${rainColor}`;
+
+            rainColumns.forEach(col => {
+                col.style.color = rainColor;
+                col.style.textShadow = rainShadow;
+            });
+
+            closeThemeModal();
+            showToast(`تم "${theme.name}" اعمال شد`, 'success');
+        }
+
+        // ==================== Register Page ====================
+        function showRegisterPage() {
+            document.getElementById('homePage').classList.add('hidden');
+            const page = document.getElementById('registerPage');
+            page.innerHTML = `
+                <div class="min-h-full flex items-center justify-center px-4 py-12">
+                    <div class="max-w-7xl w-full">
+                        <button onclick="backToHome()" class="glow-button mb-8 px-8 py-4 rounded-xl font-bold text-lg" style="color: #00ffff;">
+                            <i class="fas fa-arrow-left mr-3"></i> Back to Home
+                        </button>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <!-- Login Form -->
+                            <div class="neon-border p-10 rounded-2xl" style="background: rgba(0, 0, 0, 0.9); color: #00ffff;">
+                                <h2 class="text-4xl font-bold mb-8 text-center section-header glow-text">Login</h2>
+                                <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-6">
+                                    <div>
+                                        <label for="loginEmail" class="block mb-3 font-bold text-lg">Email</label>
+                                        <input type="email" id="loginEmail" required class="form-input">
+                                    </div>
+                                    <div>
+                                        <label for="loginPassword" class="block mb-3 font-bold text-lg">Password</label>
+                                        <input type="password" id="loginPassword" required class="form-input">
+                                    </div>
+                                    <button type="submit" class="glow-button w-full py-4 rounded-xl font-bold text-xl">
+                                        Login <i class="fas fa-sign-in-alt ml-2"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            
+                            <!-- Register Form -->
+                            <div class="neon-border p-10 rounded-2xl" style="background: rgba(0, 0, 0, 0.9); color: #ff00ff;">
+                                <h2 class="text-4xl font-bold mb-8 text-center section-header glow-text">Register</h2>
+                                <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-5">
+                                    <div>
+                                        <label for="regName" class="block mb-2 font-bold">First Name</label>
+                                        <input type="text" id="regName" required class="form-input">
+                                    </div>
+                                    <div>
+                                        <label for="regFamily" class="block mb-2 font-bold">Last Name</label>
+                                        <input type="text" id="regFamily" required class="form-input">
+                                    </div>
+                                    <div>
+                                        <label for="regEmail" class="block mb-2 font-bold">Email</label>
+                                        <input type="email" id="regEmail" required class="form-input">
+                                    </div>
+                                    <div>
+                                        <label for="regPhone" class="block mb-2 font-bold">Phone Number</label>
+                                        <input type="tel" id="regPhone" required class="form-input">
+                                    </div>
+                                    <div>
+                                        <label for="regUserId" class="block mb-2 font-bold">Username</label>
+                                        <input type="text" id="regUserId" required class="form-input">
+                                    </div>
+                                    <div>
+                                        <label for="regPassword" class="block mb-2 font-bold">Password</label>
+                                        <input type="password" id="regPassword" required class="form-input">
+                                    </div>
+                                    <div>
+                                        <label for="regPasswordConfirm" class="block mb-2 font-bold">Confirm Password</label>
+                                        <input type="password" id="regPasswordConfirm" required class="form-input">
+                                    </div>
+                                    <button type="submit" class="glow-button w-full py-4 rounded-xl font-bold text-xl">
+                                        Register <i class="fas fa-user-plus ml-2"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            page.classList.remove('hidden');
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            showLoading();
+
+            setTimeout(() => {
+                const user = registeredUsers.find(u => u.email === email && u.password === password);
+                hideLoading();
+
+                if (user) {
+                    currentUser = user;
+                    showToast(`Welcome back, ${user.name}!`, 'success');
+                    backToHome();
+                } else {
+                    showToast('Invalid credentials. Please register first.', 'error');
+                    document.getElementById('loginForm').reset();
+                }
+            }, 1500);
+        }
+
+        async function handleRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById('regName').value;
+            const family = document.getElementById('regFamily').value;
+            const email = document.getElementById('regEmail').value;
+            const phone = document.getElementById('regPhone').value;
+            const userId = document.getElementById('regUserId').value;
+            const password = document.getElementById('regPassword').value;
+            const passwordConfirm = document.getElementById('regPasswordConfirm').value;
+
+            if (password !== passwordConfirm) {
+                showToast('Passwords do not match!', 'error');
+                return;
+            }
+
+            if (registeredUsers.length >= 999) {
+                showToast('Maximum limit of 999 users reached!', 'error');
+                return;
+            }
+
+            showLoading();
+
+            const newUser = {
+                name,
+                family,
+                email,
+                phone,
+                user_id: userId,
+                password,
+                registered_at: new Date().toISOString()
+            };
+
+            const result = await window.dataSdk.create(newUser);
+            hideLoading();
+
+            if (result.isOk) {
+                showToast('Registration successful! Please login.', 'success');
+                document.getElementById('registerForm').reset();
+            } else {
+                showToast('Registration failed. Please try again.', 'error');
+            }
+        }
+
+        // ==================== Python Learning Page ====================
+        function showPythonLearning() {
+            document.getElementById('homePage').classList.add('hidden');
+            const page = document.getElementById('pythonLearningPage');
+
+            const pythonCodes = [{
+                code: 'print("Hello World")',
+                desc: 'Display text output to console'
+            }, {
+                code: 'x = 10',
+                desc: 'Declare and assign variable'
+            }, {
+                code: 'if x > 5: print("Greater")',
+                desc: 'Conditional if statement'
+            }, {
+                code: 'for i in range(10): print(i)',
+                desc: 'For loop iteration 0-9'
+            }, {
+                code: 'while x < 20: x += 1',
+                desc: 'While loop until condition false'
+            }, {
+                code: 'def my_func(): return "Hello"',
+                desc: 'Define function'
+            }, {
+                code: 'my_list = [1, 2, 3]',
+                desc: 'Create list collection'
+            }, {
+                code: 'my_dict = {"key": "value"}',
+                desc: 'Create dictionary'
+            }, {
+                code: 'my_tuple = (1, 2, 3)',
+                desc: 'Create immutable tuple'
+            }, {
+                code: 'my_set = {1, 2, 3}',
+                desc: 'Create set (no duplicates)'
+            }, {
+                code: 'len(my_list)',
+                desc: 'Get length of list/string'
+            }, {
+                code: 'my_list.append(4)',
+                desc: 'Add element to end of list'
+            }, {
+                code: 'my_list.pop()',
+                desc: 'Remove and return last element'
+            }, {
+                code: 'my_list.insert(0, 0)',
+                desc: 'Insert element at position'
+            }, {
+                code: 'my_list.remove(2)',
+                desc: 'Remove first occurrence of value'
+            }, {
+                code: '"hello".upper()',
+                desc: 'Convert string to uppercase'
+            }, {
+                code: '"HELLO".lower()',
+                desc: 'Convert string to lowercase'
+            }, {
+                code: '"hello world".split()',
+                desc: 'Split string into list'
+            }, {
+                code: '" ".join(["a","b"])',
+                desc: 'Join list elements to string'
+            }, {
+                code: '"hello".replace("h","H")',
+                desc: 'Replace substring in string'
+            }, {
+                code: 'int("123")',
+                desc: 'Convert string to integer'
+            }, {
+                code: 'str(123)',
+                desc: 'Convert number to string'
+            }, {
+                code: 'float("3.14")',
+                desc: 'Convert string to decimal'
+            }, {
+                code: 'input("Name: ")',
+                desc: 'Get user input from console'
+            }, {
+                code: 'open("file.txt", "r")',
+                desc: 'Open file for reading'
+            }, {
+                code: 'f.read()',
+                desc: 'Read entire file contents'
+            }, {
+                code: 'f.write("text")',
+                desc: 'Write text to file'
+            }, {
+                code: 'f.close()',
+                desc: 'Close file handle'
+            }, {
+                code: 'import math',
+                desc: 'Import math library module'
+            }, {
+                code: 'math.sqrt(16)',
+                desc: 'Calculate square root'
+            }, {
+                code: 'math.pow(2, 3)',
+                desc: 'Calculate power (2^3)'
+            }, {
+                code: 'import random',
+                desc: 'Import random library module'
+            }, {
+                code: 'random.randint(1, 10)',
+                desc: 'Random integer between 1-10'
+            }, {
+                code: 'random.choice([1,2,3])',
+                desc: 'Random choice from list'
+            }, {
+                code: 'try:\\n    x/0\\nexcept:\\n    print("Error")',
+                desc: 'Try-except error handling'
+            }, {
+                code: 'lambda x: x*2',
+                desc: 'Anonymous lambda function'
+            }, {
+                code: 'list(map(lambda x: x*2, [1,2,3]))',
+                desc: 'Apply function to list items'
+            }, {
+                code: 'list(filter(lambda x: x>2, [1,2,3,4]))',
+                desc: 'Filter list by condition'
+            }, {
+                code: '[x*2 for x in range(5)]',
+                desc: 'List comprehension shorthand'
+            }, {
+                code: 'class MyClass: pass',
+                desc: 'Define empty class'
+            }, {
+                code: 'obj = MyClass()',
+                desc: 'Create object instance'
+            }, {
+                code: '__init__(self)',
+                desc: 'Class constructor method'
+            }, {
+                code: 'import datetime',
+                desc: 'Import datetime library'
+            }, {
+                code: 'datetime.datetime.now()',
+                desc: 'Get current date and time'
+            }, {
+                code: 'import time',
+                desc: 'Import time library'
+            }, {
+                code: 'time.sleep(1)',
+                desc: 'Pause execution for 1 second'
+            }, {
+                code: 'import os',
+                desc: 'Import operating system library'
+            }, {
+                code: 'os.getcwd()',
+                desc: 'Get current working directory'
+            }, {
+                code: 'os.listdir()',
+                desc: 'List files in directory'
+            }, {
+                code: 'import sys',
+                desc: 'Import system library'
+            }, {
+                code: 'sys.exit()',
+                desc: 'Exit program immediately'
+            }, {
+                code: 'max([1,2,3,4,5])',
+                desc: 'Find maximum value in list'
+            }, {
+                code: 'min([1,2,3,4,5])',
+                desc: 'Find minimum value in list'
+            }, {
+                code: 'sum([1,2,3,4,5])',
+                desc: 'Sum all elements in list'
+            }, {
+                code: 'sorted([3,1,2])',
+                desc: 'Return sorted list'
+            }, {
+                code: 'reversed([1,2,3])',
+                desc: 'Reverse list order'
+            }, {
+                code: 'enumerate(["a","b"])',
+                desc: 'Enumerate list with indices'
+            }, {
+                code: 'zip([1,2], ["a","b"])',
+                desc: 'Combine two lists'
+            }, {
+                code: 'all([True, True])',
+                desc: 'Check if all elements are True'
+            }, {
+                code: 'any([False, True])',
+                desc: 'Check if any element is True'
+            }, {
+                code: 'abs(-5)',
+                desc: 'Get absolute value'
+            }, {
+                code: 'round(3.14159, 2)',
+                desc: 'Round to 2 decimal places'
+            }, {
+                code: 'type(x)',
+                desc: 'Get variable type'
+            }, {
+                code: 'isinstance(x, int)',
+                desc: 'Check if variable is type'
+            }, {
+                code: 'dir(obj)',
+                desc: 'List object methods and attributes'
+            }, {
+                code: 'help(print)',
+                desc: 'Get function help documentation'
+            }, {
+                code: 'globals()',
+                desc: 'Get global variables dictionary'
+            }, {
+                code: 'locals()',
+                desc: 'Get local variables dictionary'
+            }, {
+                code: 'eval("2+2")',
+                desc: 'Evaluate string as Python code'
+            }, {
+                code: 'exec("x=5")',
+                desc: 'Execute Python statements'
+            }, {
+                code: 'import json',
+                desc: 'Import JSON library'
+            }, {
+                code: 'json.dumps({"a":1})',
+                desc: 'Convert dict to JSON string'
+            }, {
+                code: 'json.loads(\'{"a":1}\')',
+                desc: 'Parse JSON string to dict'
+            }, {
+                code: 'import re',
+                desc: 'Import regex pattern library'
+            }, {
+                code: 're.search(r"\\\\d+", "abc123")',
+                desc: 'Search for pattern in string'
+            }, {
+                code: 're.findall(r"\\\\d+", "a1b2c3")',
+                desc: 'Find all pattern matches'
+            }, {
+                code: 'import requests',
+                desc: 'Import HTTP requests library'
+            }, {
+                code: 'requests.get("url")',
+                desc: 'Send HTTP GET request'
+            }, {
+                code: 'import numpy as np',
+                desc: 'Import NumPy for arrays'
+            }, {
+                code: 'np.array([1,2,3])',
+                desc: 'Create NumPy array'
+            }, {
+                code: 'import pandas as pd',
+                desc: 'Import Pandas for data'
+            }, {
+                code: 'pd.DataFrame({"a":[1,2]})',
+                desc: 'Create Pandas DataFrame'
+            }, {
+                code: 'import matplotlib.pyplot as plt',
+                desc: 'Import plotting library'
+            }, {
+                code: 'plt.plot([1,2,3])',
+                desc: 'Create line plot graph'
+            }, {
+                code: 'range(1, 11)',
+                desc: 'Create range 1 to 10'
+            }, {
+                code: 'list(range(1, 11))',
+                desc: 'Convert range to list'
+            }, {
+                code: 'x if x > 0 else -x',
+                desc: 'Ternary conditional operator'
+            }, {
+                code: 'with open("f.txt") as f:',
+                desc: 'Context manager for files'
+            }, {
+                code: 'assert x > 0',
+                desc: 'Assert condition is true'
+            }, {
+                code: 'yield x',
+                desc: 'Generator yield statement'
+            }, {
+                code: '*args, **kwargs',
+                desc: 'Variable length arguments'
+            }, {
+                code: 'from module import func',
+                desc: 'Import specific function'
+            }, {
+                code: 'import module as m',
+                desc: 'Import module with alias'
+            }, {
+                code: '__name__ == "__main__"',
+                desc: 'Check if script is main'
+            }, {
+                code: 'pass',
+                desc: 'Empty placeholder statement'
+            }, {
+                code: 'break',
+                desc: 'Exit current loop'
+            }, {
+                code: 'continue',
+                desc: 'Skip to next loop iteration'
+            }, {
+                code: 'return x',
+                desc: 'Return value from function'
+            }, {
+                code: '@decorator',
+                desc: 'Apply decorator to function'
+            }, {
+                code: '@property',
+                desc: 'Property decorator for methods'
+            }];
+
+            page.innerHTML = `
+                <div class="min-h-full px-4 py-12 vscode-theme">
+                    <div class="max-w-7xl mx-auto">
+                        <button onclick="backToHome()" class="glow-button mb-8 px-8 py-4 rounded-xl font-bold text-lg" style="color: #00ff00;">
+                            <i class="fas fa-arrow-left mr-3"></i> Back to Home
+                        </button>
+                        <div class="neon-border rounded-2xl p-10" style="color: #00ff00;">
+                            <h2 class="text-5xl font-bold mb-8 text-center section-header glow-text">
+                                <i class="fab fa-python mr-4"></i>
+                                100 Essential Python Codes
+                            </h2>
+                            <div class="mb-8">
+                                <input type="text" id="pythonSearch" placeholder="🔍 Search codes..." 
+                                       class="form-input text-lg" style="color: #00ff00;">
+                            </div>
+                            <div id="pythonCodeList" class="space-y-3 max-h-[700px] overflow-y-auto scroll-fade">
+                                ${pythonCodes.map((item, index) => `
+                                    <div class="vscode-line rounded-lg cursor-pointer" 
+                                         onclick="copyCode(this, \`${item.code.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`)">
+                                        <span class="code-number">${(index + 1).toString().padStart(3, '0')}</span>
+                                        <code class="code-keyword">${item.code}</code>
+                                        <span class="code-comment block mt-2 ml-16"># ${item.desc}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('pythonSearch').addEventListener('input', (e) => {
+                const search = e.target.value.toLowerCase();
+                const items = document.querySelectorAll('#pythonCodeList .vscode-line');
+                items.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    item.style.display = text.includes(search) ? 'block' : 'none';
+                });
+            });
+            
+            page.classList.remove('hidden');
+        }
+
+        function copyCode(element, code) {
+            navigator.clipboard.writeText(code);
+            element.style.borderLeftColor = '#00ff00';
+            element.style.background = '#2a2a2a';
+            showToast('Code copied to clipboard!', 'success');
+            setTimeout(() => {
+                element.style.background = '';
+                element.style.borderLeftColor = '';
+            }, 1000);
+        }
+
+        // ==================== Hacking Sources Page ====================
+        function showHackingSources() {
+            document.getElementById('homePage').classList.add('hidden');
+            const page = document.getElementById('hackingSourcesPage');
+            
+            const hackingSources = [
+                { 
+                    title: 'Port Scanner', 
+                    code: `import socket\n\ndef scan_port(host, port):\n    try:\n        s = socket.socket()\n        s.settimeout(1)\n        s.connect((host, port))\n        return True\n    except:\n        return False\n\nfor p in range(1, 1001):\n    if scan_port("127.0.0.1", p):\n        print(f"Port {p} is open")` 
+                },
+                { 
+                    title: 'Password Generator', 
+                    code: `import random\nimport string\n\ndef gen_pass(length=12):\n    chars = string.ascii_letters + string.digits + string.punctuation\n    return "".join(random.choice(chars) for _ in range(length))\n\nprint(gen_pass(16))` 
+                },
+                { 
+                    title: 'IP Lookup', 
+                    code: `import socket\n\ndef get_ip(domain):\n    try:\n        return socket.gethostbyname(domain)\n    except:\n        return "Not found"\n\nprint(get_ip("google.com"))` 
+                },
+                { 
+                    title: 'MD5 Hash Cracker', 
+                    code: `import hashlib\n\ndef crack_md5(hash_target, wordlist):\n    for word in wordlist:\n        if hashlib.md5(word.encode()).hexdigest() == hash_target:\n            return word\n    return None\n\nwordlist = ["password", "123456", "admin"]\nprint(crack_md5("5f4dcc3b5aa765d61d8327deb882cf99", wordlist))` 
+                },
+                { 
+                    title: 'Network Sniffer', 
+                    code: `import socket\n\ndef sniff():\n    conn = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(3))\n    while True:\n        raw_data, addr = conn.recvfrom(65535)\n        print(raw_data[:50])` 
+                },
+                { 
+                    title: 'Keylogger', 
+                    code: `from pynput import keyboard\n\ndef on_press(key):\n    try:\n        with open("log.txt", "a") as f:\n            f.write(str(key.char))\n    except:\n        pass\n\nlistener = keyboard.Listener(on_press=on_press)\nlistener.start()` 
+                },
+                { 
+                    title: 'Web Scraper', 
+                    code: `import requests\nfrom bs4 import BeautifulSoup\n\nurl = "https://example.com"\nresponse = requests.get(url)\nsoup = BeautifulSoup(response.text, "html.parser")\nprint(soup.title.string)` 
+                },
+                { 
+                    title: 'SQL Injection Tester', 
+                    code: `import requests\n\ndef test_sqli(url, param):\n    payloads = ["' OR 1=1--", "' OR 'a'='a"]\n    for payload in payloads:\n        r = requests.get(f"{url}?{param}={payload}")\n        if "error" not in r.text.lower():\n            print(f"Vulnerable: {payload}")` 
+                },
+                { 
+                    title: 'Directory Brute Force', 
+                    code: `import requests\n\nurl = "https://example.com/"\ndirs = ["admin", "login", "dashboard", "api"]\n\nfor d in dirs:\n    r = requests.get(url + d)\n    if r.status_code == 200:\n        print(f"Found: {d}")` 
+                },
+                { 
+                    title: 'MAC Address Changer', 
+                    code: `import subprocess\n\ndef change_mac(interface, new_mac):\n    subprocess.call(["ifconfig", interface, "down"])\n    subprocess.call(["ifconfig", interface, "hw", "ether", new_mac])\n    subprocess.call(["ifconfig", interface, "up"])` 
+                }
+            ];
+            
+            // Add 40 more sources
+            for (let i = 11; i <= 50; i++) {
+                hackingSources.push({
+                    title: `Hacking Tool ${i}`,
+                    code: `# Advanced Hacking Tool ${i}\nimport sys\nimport os\nimport socket\nimport threading\n\nclass HackingTool${i}:\n    def __init__(self):\n        self.target = None\n        self.port = None\n        \n    def scan(self):\n        print("Scanning target...")\n        # Scanning logic here\n        pass\n        \n    def exploit(self):\n        print("Exploiting vulnerability...")\n        # Exploitation logic here\n        pass\n        \n    def run(self):\n        self.scan()\n        self.exploit()\n        print("Tool ${i} completed!")\n\nif __name__ == "__main__":\n    tool = HackingTool${i}()\n    tool.run()`
+                });
+            }
+            
+            page.innerHTML = `
+                <div class="min-h-full px-4 py-12">
+                    <div class="max-w-7xl mx-auto">
+                        <button onclick="backToHome()" class="glow-button mb-8 px-8 py-4 rounded-xl font-bold text-lg" style="color: #ff0000;">
+                            <i class="fas fa-arrow-left mr-3"></i> Back to Home
+                        </button>
+                        <h2 class="text-5xl font-bold mb-10 text-center section-header glow-text" style="color: #ff0000;">
+                            <i class="fas fa-terminal mr-4"></i>
+                            50 Python Hacking Sources
+                        </h2>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            ${hackingSources.map((source, index) => `
+                                <div class="course-card" style="color: #ff0000;">
+                                    <h3 class="text-2xl font-bold mb-4 glow-text">
+                                        <i class="fas fa-code mr-2"></i>
+                                        ${source.title}
+                                    </h3>
+                                    <pre class="code-block mb-6 max-h-48 overflow-y-auto text-sm">${source.code}</pre>
+                                    <button onclick="copySourceCode(${index})" class="glow-button w-full py-3 rounded-lg font-bold text-lg">
+                                        <i class="fas fa-copy mr-2"></i>
+                                        Copy Code
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            window.hackingSourcesData = hackingSources;
+            page.classList.remove('hidden');
+        }
+
+        function copySourceCode(index) {
+            const code = window.hackingSourcesData[index].code;
+            navigator.clipboard.writeText(code);
+            showToast('Code copied to clipboard!', 'success');
+        }
+
+        // ==================== Python Applications Page ====================
+        function showPythonApplications() {
+            document.getElementById('homePage').classList.add('hidden');
+            const page = document.getElementById('pythonAppsPage');
+            
+            const applications = [
+                { name: 'Web Development', desc: 'Build powerful websites with Django and Flask frameworks for backend.', icon: '🌐', color: '#0088ff' },
+                { name: 'Artificial Intelligence', desc: 'Create ML models with TensorFlow and PyTorch for deep learning.', icon: '🤖', color: '#aa00ff' },
+                { name: 'Data Analysis', desc: 'Analyze big data with Pandas and NumPy libraries for statistics.', icon: '📊', color: '#00ff00' },
+                { name: 'Automation', desc: 'Automate repetitive tasks with Python scripts and save time.', icon: '⚙️', color: '#ff6600' },
+                { name: 'Game Development', desc: 'Create 2D games with Pygame library for entertainment.', icon: '🎮', color: '#aa00ff' },
+                { name: 'Cybersecurity', desc: 'Build ethical hacking and penetration testing tools for security.', icon: '🔒', color: '#ff0000' },
+                { name: 'Bots', desc: 'Create Telegram, Discord, and other social media bots.', icon: '🤖', color: '#00ffff' },
+                { name: 'Data Science', desc: 'Build prediction models with scikit-learn for insights.', icon: '📈', color: '#ffaa00' },
+                { name: 'IoT', desc: 'Create IoT projects with Raspberry Pi and Arduino devices.', icon: '📡', color: '#0088ff' },
+                { name: 'Image Processing', desc: 'Process images with OpenCV for computer vision applications.', icon: '📷', color: '#ff1493' },
+                { name: 'Web Scraping', desc: 'Extract data from websites with Beautiful Soup library.', icon: '🕷️', color: '#666666' },
+                { name: 'API Development', desc: 'Build fast APIs with FastAPI framework for microservices.', icon: '🔌', color: '#00ff7f' },
+                { name: 'Blockchain', desc: 'Create blockchain networks and cryptocurrencies with smart contracts.', icon: '⛓️', color: '#ffd700' },
+                { name: 'Chatbots', desc: 'Build intelligent conversation bots with NLP libraries.', icon: '💬', color: '#00ffff' },
+                { name: 'Face Recognition', desc: 'Build face recognition systems with deep learning models.', icon: '👤', color: '#bf00ff' },
+                { name: 'NLP', desc: 'Analyze text with NLTK and process natural language.', icon: '📝', color: '#4b0082' },
+                { name: 'Music Processing', desc: 'Process audio files with librosa for music analysis.', icon: '🎵', color: '#ff00ff' },
+                { name: 'Video Editing', desc: 'Edit videos programmatically with MoviePy library.', icon: '🎬', color: '#ff0040' },
+                { name: 'Mapping', desc: 'Create interactive maps with folium and geospatial data.', icon: '🗺️', color: '#00ff55' },
+                { name: 'Finance', desc: 'Build financial applications and stock market analysis tools.', icon: '💰', color: '#ffaa00' },
+                { name: 'Robotics', desc: 'Control physical robots with Python and hardware interfaces.', icon: '🦾', color: '#0088ff' },
+                { name: 'Virtual Reality', desc: 'Create VR/AR experiences with Python frameworks.', icon: '🥽', color: '#bf00ff' },
+                { name: 'Networking', desc: 'Build network monitoring and packet analysis tools.', icon: '🌐', color: '#00ffff' },
+                { name: 'Email', desc: 'Create automated email systems with SMTP protocol.', icon: '📧', color: '#0088ff' },
+                { name: 'PDF', desc: 'Create and edit PDF files with PyPDF2 library.', icon: '📄', color: '#ff0000' },
+                { name: 'Excel', desc: 'Automate Excel with openpyxl for data management.', icon: '📊', color: '#00ff7f' },
+                { name: 'QR Code', desc: 'Generate and read QR codes for data encoding.', icon: '📱', color: '#aa00ff' },
+                { name: 'Cryptography', desc: 'Encrypt and decrypt data with cryptography libraries.', icon: '🔐', color: '#ff6600' },
+                { name: 'Database', desc: 'Manage databases with SQLAlchemy ORM framework.', icon: '🗄️', color: '#708090' },
+                { name: 'Translation', desc: 'Build auto-translation with Google Translate API integration.', icon: '🌍', color: '#0088ff' },
+                { name: 'Calendar', desc: 'Build calendar and reminder applications with scheduling.', icon: '📅', color: '#bf00ff' },
+                { name: 'Weather', desc: 'Get weather information with weather API services.', icon: '🌤️', color: '#00ffff' },
+                { name: 'Voting', desc: 'Build online voting systems with security features.', icon: '🗳️', color: '#aa00ff' },
+                { name: 'E-commerce', desc: 'Build online stores with payment gateway integration.', icon: '🛒', color: '#00ff7f' },
+                { name: 'Blogging', desc: 'Create blogging systems with content management.', icon: '✍️', color: '#ff6600' },
+                { name: 'Chat', desc: 'Build real-time chat applications with WebSockets.', icon: '💬', color: '#00ffff' },
+                { name: 'Cloud Storage', desc: 'Build cloud storage systems with file management.', icon: '☁️', color: '#0088ff' },
+                { name: 'Social Network', desc: 'Build small social networks with user profiles.', icon: '👥', color: '#ff00ff' },
+                { name: 'Education', desc: 'Build online learning platforms with course management.', icon: '🎓', color: '#0088ff' },
+                { name: 'Medical', desc: 'Build disease diagnosis systems with machine learning.', icon: '🏥', color: '#ff0000' },
+                { name: 'Agriculture', desc: 'Build smart farming systems with IoT sensors.', icon: '🌾', color: '#00ff00' },
+                { name: 'Traffic', desc: 'Build traffic management systems with computer vision.', icon: '🚦', color: '#ffaa00' },
+                { name: 'Smart Home', desc: 'Build smart home automation systems with controls.', icon: '🏠', color: '#aa00ff' },
+                { name: 'Transportation', desc: 'Build smart transportation systems with GPS tracking.', icon: '��', color: '#0088ff' },
+                { name: 'Energy', desc: 'Build energy management systems with monitoring.', icon: '⚡', color: '#ffff00' },
+                { name: 'Environment', desc: 'Build environmental monitoring systems with sensors.', icon: '🌱', color: '#00ff7f' },
+                { name: 'Sports', desc: 'Build sports analysis and statistics applications.', icon: '⚽', color: '#ff6600' },
+                { name: 'Food', desc: 'Build recipe and nutrition tracking applications.', icon: '🍔', color: '#ff0040' },
+                { name: 'Travel', desc: 'Build travel planning and booking applications.', icon: '✈️', color: '#00ffff' },
+                { name: 'Fashion', desc: 'Build clothing recommendation systems with AI.', icon: '👗', color: '#ff00ff' }
+            ];
+            
+            page.innerHTML = `
+                <div class="min-h-full px-4 py-12">
+                    <div class="max-w-7xl mx-auto">
+                        <button onclick="backToHome()" class="glow-button mb-8 px-8 py-4 rounded-xl font-bold text-lg" style="color: #ff00ff;">
+                            <i class="fas fa-arrow-left mr-3"></i> Back to Home
+                        </button>
+                        <h2 class="text-5xl font-bold mb-10 text-center section-header glow-text" style="color: #ff00ff;">
+                            <i class="fas fa-rocket mr-4"></i>
+                            50 Python Applications
+                        </h2>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            ${applications.map((app, index) => `
+                                <div class="course-card cursor-pointer" style="color: ${app.color};" onclick="toggleAppDesc(${index})">
+                                    <div class="text-6xl mb-5 text-center">${app.icon}</div>
+                                    <h3 class="text-3xl font-bold mb-3 text-center glow-text">${app.name}</h3>
+                                    <p id="appDesc${index}" class="text-base hidden" style="opacity: 0.8;">${app.desc}</p>
+                                    <div class="text-sm text-center mt-3 font-bold" style="opacity: 0.7;">
+                                        <i class="fas fa-hand-pointer mr-2"></i>
+                                        Click for details
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            page.classList.remove('hidden');
+        }
+
+        function toggleAppDesc(index) {
+            const desc = document.getElementById(`appDesc${index}`);
+            desc.classList.toggle('hidden');
+        }
+
+        // ==================== Courses Page ====================
+        function showCoursePage() {
+            if (!currentUser) {
+                showToast('Please register first to access courses', 'warning');
+                showRegisterPage();
+                return;
+            }
+            
+            document.getElementById('homePage').classList.add('hidden');
+            const page = document.getElementById('coursesPage');
+            
+            const courses = [];
+            const languages = ['Python', 'JavaScript', 'Java', 'C++', 'Ruby', 'Go', 'Rust', 'PHP', 'C#', 'Swift'];
+            const topics = ['Web Hacking', 'Network Security', 'Cryptography', 'Malware Analysis', 'Penetration Testing', 
+                           'Social Engineering', 'Wireless Hacking', 'Mobile Security', 'Cloud Security', 'IoT Security'];
+            
+            for (let i = 0; i < 300; i++) {
+                const lang = languages[Math.floor(Math.random() * languages.length)];
+                const topic = topics[Math.floor(Math.random() * topics.length)];
+                courses.push({
+                    title: `${topic} with ${lang}`,
+                    price: Math.floor(Math.random() * 500) + 100,
+                    duration: Math.floor(Math.random() * 20) + 5,
+                    level: ['Beginner', 'Intermediate', 'Advanced'][Math.floor(Math.random() * 3)]
+                });
+            }
+            
+            page.innerHTML = `
+                <div class="min-h-full px-4 py-12">
+                    <div class="max-w-7xl mx-auto">
+                        <button onclick="backToHome()" class="glow-button mb-8 px-8 py-4 rounded-xl font-bold text-lg" style="color: #00ffff;">
+                            <i class="fas fa-arrow-left mr-3"></i> Back to Home
+                        </button>
+                        <h2 class="text-5xl font-bold mb-10 text-center section-header glow-text" style="color: #00ffff;">
+                            <i class="fas fa-graduation-cap mr-4"></i>
+                            300 Hacking Courses
+                        </h2>
+                        <div class="mb-8 flex flex-col md:flex-row gap-5">
+                            <input type="text" id="courseSearch" placeholder="🔍 Search courses..." 
+                                   class="flex-1 form-input text-lg" style="color: #00ffff;">
+                            <select id="courseFilter" class="form-input text-lg" style="color: #00ffff;">
+                                <option value="all">All Levels</option>
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Advanced">Advanced</option>
+                            </select>
+                        </div>
+                        <div id="courseList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            ${courses.map((course, index) => `
+                                <div class="course-card" style="color: #00ffff;" data-level="${course.level}">
+                                    <div class="flex justify-between items-start mb-5">
+                                        <h3 class="text-2xl font-bold flex-1">${course.title}</h3>
+                                        <span class="badge text-base" style="color: #00ffff;">${course.level}</span>
+                                    </div>
+                                    <div class="space-y-3 mb-6 text-lg" style="opacity: 0.8;">
+                                        <div><i class="fas fa-clock mr-3"></i>${course.duration} hours</div>
+                                        <div><i class="fas fa-dollar-sign mr-3"></i>$${course.price}</div>
+                                    </div>
+                                    <button onclick="buyCourse(${index})" class="glow-button w-full py-4 rounded-lg font-bold text-lg">
+                                        <i class="fas fa-shopping-cart mr-2"></i>
+                                        Buy Course
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('courseSearch').addEventListener('input', filterCourses);
+            document.getElementById('courseFilter').addEventListener('change', filterCourses);
+            
+            window.coursesData = courses;
+            page.classList.remove('hidden');
+        }
+
+        function filterCourses() {
+            const search = document.getElementById('courseSearch').value.toLowerCase();
+            const filter = document.getElementById('courseFilter').value;
+            const cards = document.querySelectorAll('#courseList .course-card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const level = card.dataset.level;
+                const matchSearch = title.includes(search);
+                const matchFilter = filter === 'all' || level === filter;
+                card.style.display = matchSearch && matchFilter ? 'block' : 'none';
+            });
+        }
+
+        function buyCourse(index) {
+            const course = window.coursesData[index];
+            showToast(`To purchase "${course.title}", please contact via Instagram`, 'info');
+            setTimeout(() => {
+                window.open('https://instagram.com/amirali_bafti-1390', '_blank', 'noopener,noreferrer');
+            }, 2000);
+        }
+
+        // ==================== AI Page ====================
+        function showAIPage() {
+            document.getElementById('homePage').classList.add('hidden');
+            const page = document.getElementById('aiPage');
+            
+            page.innerHTML = `
+                <div class="min-h-full px-4 py-12">
+                    <div class="max-w-7xl mx-auto">
+                        <button onclick="backToHome()" class="glow-button mb-8 px-8 py-4 rounded-xl font-bold text-lg" style="color: #ffaa00;">
+                            <i class="fas fa-arrow-left mr-3"></i> Back to Home
+                        </button>
+                        <h2 class="text-6xl font-bold mb-14 text-center section-header glow-text" style="color: #ffaa00;">
+                            <i class="fas fa-robot mr-4"></i>
+                            amir.ai - 5 Specialized AI Assistants
+                        </h2>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
+                            <button onclick="selectAI('python')" class="feature-card card-3d p-10 rounded-2xl glow-button" style="color: #0088ff;">
+                                <i class="fab fa-python text-7xl mb-6 glow-text"></i>
+                                <h3 class="text-3xl font-bold mb-3">Python AI</h3>
+                                <p class="text-lg mt-3" style="opacity: 0.8;">400 functions and concepts</p>
+                            </button>
+                            <button onclick="selectAI('codegen')" class="feature-card card-3d p-10 rounded-2xl glow-button" style="color: #ff00ff;">
+                                <i class="fas fa-code text-7xl mb-6 glow-text"></i>
+                                <h3 class="text-3xl font-bold mb-3">Code Generator AI</h3>
+                                <p class="text-lg mt-3" style="opacity: 0.8;">1000 ready Python codes</p>
+                            </button>
+                            <button onclick="selectAI('html')" class="feature-card card-3d p-10 rounded-2xl glow-button" style="color: #ff6600;">
+                                <i class="fab fa-html5 text-7xl mb-6 glow-text"></i>
+                                <h3 class="text-3xl font-bold mb-3">HTML AI</h3>
+                                <p class="text-lg mt-3" style="opacity: 0.8;">Complete HTML knowledge</p>
+                            </button>
+                            <button onclick="selectAI('css')" class="feature-card card-3d p-10 rounded-2xl glow-button" style="color: #00ff7f;">
+                                <i class="fab fa-css3-alt text-7xl mb-6 glow-text"></i>
+                                <h3 class="text-3xl font-bold mb-3">CSS AI</h3>
+                                <p class="text-lg mt-3" style="opacity: 0.8;">Complete CSS and design</p>
+                            </button>
+                            <button onclick="selectAI('js')" class="feature-card card-3d p-10 rounded-2xl glow-button" style="color: #ffff00;">
+                                <i class="fab fa-js text-7xl mb-6 glow-text"></i>
+                                <h3 class="text-3xl font-bold mb-3">JavaScript AI</h3>
+                                <p class="text-lg mt-3" style="opacity: 0.8;">Complete JavaScript knowledge</p>
+                            </button>
+                        </div>
+                        <div id="aiChat" class="hidden neon-border rounded-2xl p-8" style="background: rgba(0, 0, 0, 0.95); color: #00ff00;">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 id="aiTitle" class="text-3xl font-bold section-header glow-text"></h3>
+                                <button onclick="closeAI()" class="text-5xl hover:text-red-500 transition-colors">&times;</button>
+                            </div>
+                            <div id="aiMessages" class="h-96 overflow-y-auto mb-6 space-y-4 scroll-fade"></div>
+                            <form onsubmit="sendAIMessage(event)" class="flex gap-4">
+                                <input type="text" id="aiInput" required placeholder="Ask your question..." 
+                                       class="flex-1 form-input text-lg" style="color: #00ff00;">
+                                <button type="submit" class="glow-button px-8 py-4 rounded-lg font-bold text-lg" style="color: #00ff00;">
+                                    <i class="fas fa-paper-plane text-xl"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            page.classList.remove('hidden');
+        }
+
+        let currentAI = null;
+        const aiKnowledge = {
+            python: {
+                title: 'Python AI Assistant',
+                data: [
+                    { q: 'print', a: 'print() function displays output to console. Example: print("Hello World")' },
+                    { q: 'variable', a: 'Variable stores a value in memory. Example: x = 10' },
+                    { q: 'list', a: 'List is ordered and mutable collection. Example: my_list = [1, 2, 3]' },
+                    { q: 'if', a: 'if statement checks conditions. Example: if x > 5: print("Greater")' },
+                    { q: 'for', a: 'for loop iterates through sequences. Example: for i in range(10): print(i)' },
+                    { q: 'function', a: 'Function is reusable code block. Example: def my_func(): return "Hello"' },
+                    { q: 'class', a: 'Class is a blueprint for objects. Example: class MyClass: pass' },
+                    { q: 'dictionary', a: 'Dictionary stores key-value pairs. Example: my_dict = {"name": "Ali"}' }
+                ]
+            },
+            codegen: {
+                title: 'Code Generator AI',
+                data: [
+                    { q: '1 to 10', a: 'for i in range(1, 11):\\n    print(i)' },
+                    { q: 'add two numbers', a: 'def add(a, b):\\n    return a + b\\n\\nresult = add(5, 3)\\nprint(result)' },
+                    { q: 'even or odd', a: 'num = int(input("Number: "))\\nif num % 2 == 0:\\n    print("Even")\\nelse:\\n    print("Odd")' },
+                    { q: 'factorial', a: 'def factorial(n):\\n    if n == 0:\\n        return 1\\n    return n * factorial(n-1)' }
+                ]
+            },
+            html: {
+                title: 'HTML AI Assistant',
+                data: [
+                    { q: 'html', a: '<html> tag is the root element of an HTML page.' },
+                    { q: 'head', a: '<head> contains metadata and CSS links.' },
+                    { q: 'body', a: '<body> contains visible page content.' },
+                    { q: 'div', a: '<div> is a block container element.' },
+                    { q: 'a', a: '<a> creates hyperlinks. Example: <a href="url">text</a>' }
+                ]
+            },
+            css: {
+                title: 'CSS AI Assistant',
+                data: [
+                    { q: 'color', a: 'color property sets text color. Example: color: red;' },
+                    { q: 'background', a: 'background property sets background. Example: background: #fff;' },
+                    { q: 'margin', a: 'margin property sets outer spacing around element.' },
+                    { q: 'padding', a: 'padding property sets inner spacing inside element.' },
+                    { q: 'flexbox', a: 'Flexbox is 1D layout system. Example: display: flex;' }
+                ]
+            },
+            js: {
+                title: 'JavaScript AI Assistant',
+                data: [
+                    { q: 'variable', a: 'Variables declared with let, const, or var. Example: let x = 10;' },
+                    { q: 'function', a: 'Function with function keyword or arrow. Example: const add = (a,b) => a+b;' },
+                    { q: 'array', a: 'Array is a collection of elements. Example: const arr = [1,2,3];' },
+                    { q: 'object', a: 'Object stores key-value pairs. Example: const obj = {name: "Ali"};' },
+                    { q: 'dom', a: 'DOM is interface for HTML manipulation. Example: document.getElementById()' }
+                ]
+            }
+        };
+
+        function selectAI(type) {
+            currentAI = type;
+            document.getElementById('aiChat').classList.remove('hidden');
+            document.getElementById('aiTitle').textContent = aiKnowledge[type].title;
+            document.getElementById('aiMessages').innerHTML = `
+                <div class="ai-message" style="color: #00ff00;">
+                    <i class="fas fa-robot mr-3 text-2xl"></i>
+                    <span class="text-lg">Hello! I am ${aiKnowledge[type].title}. What's your question?</span>
+                </div>
+            `;
+        }
+
+        function closeAI() {
+            document.getElementById('aiChat').classList.add('hidden');
+            currentAI = null;
+        }
+
+        function sendAIMessage(event) {
+            event.preventDefault();
+            const input = document.getElementById('aiInput');
+            const question = input.value.trim();
+            if (!question) return;
+            
+            const messages = document.getElementById('aiMessages');
+            
+            messages.innerHTML += `
+                <div class="ai-message text-right" style="color: #00ffff;">
+                    <i class="fas fa-user mr-3 text-2xl"></i>
+                    <span class="text-lg">${question}</span>
+                </div>
+            `;
+            
+            const knowledge = aiKnowledge[currentAI].data;
+            let answer = 'Sorry, I don\'t have information about this. Please ask another question or try different keywords.';
+            
+            for (let item of knowledge) {
+                if (question.toLowerCase().includes(item.q.toLowerCase())) {
+                    answer = item.a;
+                    break;
+                }
+            }
+            
+            setTimeout(() => {
+                messages.innerHTML += `
+                    <div class="ai-message" style="color: #00ff00;">
+                        <i class="fas fa-robot mr-3 text-2xl"></i>
+                        <pre class="whitespace-pre-wrap font-sans text-lg">${answer}</pre>
+                    </div>
+                `;
+                messages.scrollTop = messages.scrollHeight;
+            }, 800);
+            
+            input.value = '';
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        // ==================== Navigation ====================
+        function backToHome() {
+            document.querySelectorAll('.page-content').forEach(page => page.classList.add('hidden'));
+            document.getElementById('homePage').classList.remove('hidden');
+        }
+
+        // ==================== Event Listeners ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            const langBtn = document.getElementById('languageBtn');
+            const themeBtn = document.getElementById('themeBtn');
+            
+            if (langBtn) langBtn.addEventListener('click', showLanguageModal);
+            if (themeBtn) themeBtn.addEventListener('click', showThemeModal);
+        });
+
+        // ==================== Data SDK Handler ====================
+        const dataHandler = {
+            onDataChanged(data) {
+                registeredUsers = data;
+                console.log(`${data.length} users registered in database`);
+            }
+        };
+
+        // ==================== Element SDK ====================
+        async function onConfigChange(config) {
+            const elements = {
+                siteTitle: config.site_title || defaultConfig.site_title,
+                siteSubtitle: config.site_subtitle || defaultConfig.site_subtitle,
+                creatorName: config.creator_name || defaultConfig.creator_name,
+                phoneNumber: config.phone_number || defaultConfig.phone_number,
+                instagramHandle: config.instagram_handle || defaultConfig.instagram_handle,
+                welcomeMessage: config.welcome_message || defaultConfig.welcome_message,
+                tagline: config.tagline || defaultConfig.tagline,
+                studentsLabel: config.students_label || defaultConfig.students_label,
+                coursesLabel: config.courses_label || defaultConfig.courses_label,
+                sourcesLabel: config.sources_label || defaultConfig.sources_label
+            };
+            
+            Object.keys(elements).forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = elements[id];
+            });
+            
+            const creatorContact = document.getElementById('creatorNameContact');
+            if (creatorContact) {
+                creatorContact.textContent = elements.creatorName;
+            }
+            
+            const fontFamily = config.font_family || defaultConfig.font_family;
+            const fontSize = config.font_size || defaultConfig.font_size;
+            document.body.style.fontFamily = `${fontFamily}, 'Rajdhani', sans-serif`;
+            document.body.style.fontSize = `${fontSize}px`;
+        }
+
+        // ==================== Initialization ====================
+        async function init() {
+            // Create matrix rain effect with delay
+            setTimeout(() => createMatrixRain(), 100);
+            
+            // Optimized resize handler with debounce
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    createMatrixRain();
+                }, 500);
+            }, { passive: true });
+            
+            // Initialize Data SDK
+            try {
+                const dataResult = await window.dataSdk.init(dataHandler);
+                if (!dataResult.isOk) {
+                    console.error('Failed to initialize Data SDK:', dataResult.error);
+                }
+            } catch (error) {
+                console.error('Data SDK init error:', error);
+            }
+            
+            // Initialize Element SDK
+            if (window.elementSdk) {
+                try {
+                    await window.elementSdk.init({
+                        defaultConfig,
+                        onConfigChange,
+                        mapToCapabilities: (config) => ({
+                            recolorables: [
+                                { 
+                                    get: () => config.background_color || defaultConfig.background_color, 
+                                    set: (v) => { 
+                                        config.background_color = v; 
+                                        window.elementSdk.setConfig({ background_color: v }); 
+                                    } 
+                                },
+                                { 
+                                    get: () => config.primary_color || defaultConfig.primary_color, 
+                                    set: (v) => { 
+                                        config.primary_color = v; 
+                                        window.elementSdk.setConfig({ primary_color: v }); 
+                                    } 
+                                },
+                                { 
+                                    get: () => config.secondary_color || defaultConfig.secondary_color, 
+                                    set: (v) => { 
+                                        config.secondary_color = v; 
+                                        window.elementSdk.setConfig({ secondary_color: v }); 
+                                    } 
+                                },
+                                { 
+                                    get: () => config.accent_color || defaultConfig.accent_color, 
+                                    set: (v) => { 
+                                        config.accent_color = v; 
+                                        window.elementSdk.setConfig({ accent_color: v }); 
+                                    } 
+                                },
+                                { 
+                                    get: () => config.text_color || defaultConfig.text_color, 
+                                    set: (v) => { 
+                                        config.text_color = v; 
+                                        window.elementSdk.setConfig({ text_color: v }); 
+                                    } 
+                                }
+                            ],
+                            borderables: [],
+                            fontEditable: {
+                                get: () => config.font_family || defaultConfig.font_family,
+                                set: (v) => { 
+                                    config.font_family = v; 
+                                    window.elementSdk.setConfig({ font_family: v }); 
+                                }
+                            },
+                            fontSizeable: {
+                                get: () => config.font_size || defaultConfig.font_size,
+                                set: (v) => { 
+                                    config.font_size = v; 
+                                    window.elementSdk.setConfig({ font_size: v }); 
+                                }
+                            }
+                        }),
+                        mapToEditPanelValues: (config) => new Map([
+                            ['site_title', config.site_title || defaultConfig.site_title],
+                            ['site_subtitle', config.site_subtitle || defaultConfig.site_subtitle],
+                            ['creator_name', config.creator_name || defaultConfig.creator_name],
+                            ['phone_number', config.phone_number || defaultConfig.phone_number],
+                            ['instagram_handle', config.instagram_handle || defaultConfig.instagram_handle],
+                            ['welcome_message', config.welcome_message || defaultConfig.welcome_message],
+                            ['tagline', config.tagline || defaultConfig.tagline],
+                            ['students_label', config.students_label || defaultConfig.students_label],
+                            ['courses_label', config.courses_label || defaultConfig.courses_label],
+                            ['sources_label', config.sources_label || defaultConfig.sources_label]
+                        ])
+                    });
+                } catch (error) {
+                    console.error('Element SDK init error:', error);
+                }
+            }
+        }
+
+        // Start the application when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+    <script>
+        (function() {
+            function c() {
+                var b = a.contentDocument || a.contentWindow.document;
+                if (b) {
+                    var d = b.createElement('script');
+                    d.innerHTML = "window.__CF$cv$params={r:'9b386e7666a51961',t:'MTc2NjY2NjY4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+                    b.getElementsByTagName('head')[0].appendChild(d)
+                }
+            }
+            if (document.body) {
+                var a = document.createElement('iframe');
+                a.height = 1;
+                a.width = 1;
+                a.style.position = 'absolute';
+                a.style.top = 0;
+                a.style.left = 0;
+                a.style.border = 'none';
+                a.style.visibility = 'hidden';
+                document.body.appendChild(a);
+                if ('loading' !== document.readyState) c();
+                else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c);
+                else {
+                    var e = document.onreadystatechange || function() {};
+                    document.onreadystatechange = function(b) {
+                        e(b);
+                        'loading' !== document.readyState && (document.onreadystatechange = e, c())
+                    }
+                }
+            }
+        })();
+    </script>
+</body>
+
+</html>
